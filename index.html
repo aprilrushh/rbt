@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Bridge Token (RBT) - 블록체인 기반 실물자산 투자 플랫폼</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      background-color: #f9f9f9;
+      color: #2c3e50;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+    }
+    /* CSS Variables */
+    :root {
+      --primary: #0a3d62;
+      --primary-light: #1e5f88;
+      --secondary: #ffa726;
+      --secondary-light: #ffb74d;
+      --accent: #1abc9c;
+      --dark-text: #2c3e50;
+      --light-text: #ecf0f1;
+      --luxury-black: #1a1a1a;
+      --luxury-dark: #222222;
+      --transition-speed: 0.3s;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-light);
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      z-index: 1000;
+      transition: padding var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    }
+    .navbar.scrolled {
+      padding: 10px 0;
+      background-color: rgba(255, 255, 255, 0.98);
+    }
+    .container {
+      width: 85%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links li {
+      margin-left: 25px;
+    }
+    .nav-links a {
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color var(--transition-speed);
+    }
+    .nav-links a:hover,
+    .nav-links .active {
+      color: var(--primary);
+    }
+    .btn {
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+      text-align: center;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+      border: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(10, 61, 98, 0.3);
+    }
+    .btn-secondary {
+      background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+      color: #fff;
+      border: none;
+    }
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 167, 38, 0.3);
+    }
+    .btn-large {
+      padding: 15px 30px;
+      font-size: 1.1rem;
+    }
+    /* Hero Section */
+    .hero {
+      padding-top: 120px;
+      padding-bottom: 80px;
+      background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(34, 34, 34, 0.95)), url('/api/placeholder/1600/900') no-repeat center center;
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    .countdown {
+      margin: 50px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .countdown-item {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 20px;
+      min-width: 100px;
+      text-align: center;
+    }
+    .countdown-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+    .countdown-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+    /* Sections */
+    .section {
+      padding: 80px 0;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      color: var(--luxury-black);
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--secondary);
+      border-radius: 2px;
+    }
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: var(--dark-text);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    /* Features */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .feature-card {
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05);
+      padding: 40px 30px;
+      text-align: center;
+      flex: 1;
+      min-width: 300px;
+      max-width: 350px;
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(10, 61, 98, 0.1);
+    }
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--luxury-black), var(--luxury-dark));
+      border-radius: 50%;
+      color: #fff;
+      font-size: 2rem;
+    }
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--luxury-black);
+    }
+    .feature-description {
+      color: var(--dark-text);
+      line-height: 1.6;
+    }
+    /* Business Model Section */
+    .business-model {
+      background-color: #f8fafc;
+    }
+    .model-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 50px;
+    }
+    .model-visual, .model-details {
+      flex: 1;
+      min-width: 300px;
+    }
+    /* Vertical Timeline (Model Visual) */
+    .vertical-timeline {
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .timeline-step {
+      position: relative;
+      margin-bottom: 40px;
+      padding-left: 80px;
+    }
+    .timeline-step:last-child {
+      margin-bottom: 0;
+    }
+    .timeline-icon {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    .timeline-icon div {
+      width: 60px;
+      height: 60px;
+      background-color: var(--secondary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .timeline-line {
+      position: absolute;
+      top: 60px;
+      left: 29px;
+      width: 2px;
+      height: calc(100% - 60px);
+      background: var(--secondary);
+    }
+    .timeline-step h4 {
+      color: var(--luxury-black);
+      margin-bottom: 5px;
+      font-size: 1.25rem;
+    }
+    .timeline-step p {
+      color: var(--dark-text);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    /* Model Details */
+    .model-details .model-step {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 25px;
+    }
+    .model-details .step-number {
+      background-color: var(--primary);
+      color: #fff;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    .model-details .step-content h3 {
+      margin-bottom: 8px;
+      color: var(--luxury-black);
+      font-size: 1.1rem;
+    }
+    .model-details .step-content p {
+      color: var(--dark-text);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    /* Safety Section */
+    .safety {
+      background-color: #fff;
+    }
+    .safety-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 50px;
+    }
+    .safety-image, .safety-content {
+      flex: 1;
+      min-width: 300px;
+    }
+    .safety-point {
+      margin-bottom: 25px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .safety-icon {
+      margin-right: 15px;
+      color: var(--accent);
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .safety-text h3 {
+      margin-bottom: 8px;
+      color: var(--luxury-black);
+      font-size: 1.2rem;
+    }
+    .safety-text p {
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    /* FAQ Section */
+    .faq {
+      background-color: #fff;
+    }
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      margin-bottom: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    .faq-question {
+      background-color: #fff;
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color var(--transition-speed);
+    }
+    .faq-question:hover {
+      background-color: #f9f9f9;
+    }
+    .faq-question h3 {
+      font-size: 1.1rem;
+      color: var(--luxury-black);
+    }
+    .faq-question i {
+      font-size: 1.2rem;
+      color: var(--luxury-black);
+      transition: transform var(--transition-speed);
+    }
+    .faq-answer {
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background-color: #f9f9f9;
+    }
+    .faq-answer p {
+      padding: 20px 0;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    .faq-item.active .faq-question {
+      background-color: var(--primary);
+      color: #fff;
+    }
+    .faq-item.active .faq-question h3,
+    .faq-item.active .faq-question i {
+      color: #fff;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+    }
+    /* Call to Action */
+    .cta {
+      padding: 100px 0;
+      text-align: center;
+      background: linear-gradient(135deg, var(--luxury-black), var(--luxury-dark)), url('/api/placeholder/1600/900') no-repeat center center;
+      background-blend-mode: multiply;
+      background-size: cover;
+      color: #fff;
+    }
+    .cta-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 25px;
+    }
+    .cta p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    .subscribe-form {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .subscribe-input {
+      flex: 1;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 30px 0 0 30px;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .subscribe-btn {
+      padding: 0 25px;
+      background: var(--secondary);
+      color: #fff;
+      border: none;
+      border-radius: 0 30px 30px 0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition-speed);
+      margin-bottom: 10px;
+    }
+    .subscribe-btn:hover {
+      background: var(--secondary-light);
+    }
+    /* Footer */
+    .footer {
+      background-color: var(--luxury-dark);
+      color: #fff;
+      padding: 60px 0 30px;
+    }
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .footer-column {
+      flex: 1;
+      min-width: 250px;
+    }
+    .footer-title {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: var(--secondary);
+    }
+    .footer-links {
+      list-style: none;
+    }
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      transition: color var(--transition-speed);
+    }
+    .footer-links a:hover {
+      color: #fff;
+    }
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #fff;
+      transition: transform var(--transition-speed), background-color var(--transition-speed);
+    }
+    .social-icon:hover {
+      background-color: var(--secondary);
+      transform: translateY(-3px);
+    }
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate {
+      animation: fadeIn 1s ease forwards;
+    }
+    .delay-1 {
+      animation-delay: 0.2s;
+    }
+    .delay-2 {
+      animation-delay: 0.4s;
+    }
+    .delay-3 {
+      animation-delay: 0.6s;
+    }
+    .delay-4 {
+      animation-delay: 0.8s;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .nav-links li {
+        margin: 5px 10px;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .countdown {
+        flex-wrap: wrap;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .feature-card, .model-visual, .model-details, .faq-item {
+        min-width: 100%;
+      }
+      .subscribe-form {
+        flex-direction: column;
+      }
+      .subscribe-input, .subscribe-btn {
+        width: 100%;
+        border-radius: 30px;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-container">
+      <div class="logo">
+        <i class="fas fa-bridge" style="color: var(--primary); font-size: 2rem; margin-right: 10px;"></i>
+        <h1>Real Bridge Token</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#home" class="active">홈</a></li>
+        <li><a href="#features">특징</a></li>
+        <li><a href="#model">비즈니스 모델</a></li>
+        <li><a href="#safety">안전성</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#" class="btn btn-primary" style="padding: 5px 20px;">Pre-Sale 참여</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container hero-content">
+      <h1 class="animate">100% 실물자산으로 담보된 안전한 디지털 자산의 미래</h1>
+      <p class="animate delay-1">Real Bridge Token(RBT)은 블록체인 기술을 활용하여 부동산과 같은 실물자산에 투자할 수 있는 혁신적인 스테이블코인 플랫폼입니다.</p>
+      <a href="#" class="btn btn-secondary btn-large animate delay-2">Pre-Sale 참여하기</a>
+      <div class="countdown animate delay-3">
+        <div class="countdown-item">
+          <div class="countdown-number">47</div>
+          <div class="countdown-label">일</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number">8</div>
+          <div class="countdown-label">시간</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number">32</div>
+          <div class="countdown-label">분</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number">15</div>
+          <div class="countdown-label">초</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">핵심 특징</h2>
+        <p class="section-subtitle">Real Bridge Token은 기존 암호화폐와 스테이블코인의 한계를 뛰어넘는 혁신적인 가치를 제공합니다.</p>
+      </div>
+      <div class="features">
+        <div class="feature-card animate">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+              <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z" fill="#fff"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">100% 실물자산 담보</h3>
+          <p class="feature-description">투자금은 USDT로 전환 후 전액 부동산 구매에 사용됩니다. 모든 토큰은 실제 자산으로 100% 담보되어 있습니다.</p>
+        </div>
+        <div class="feature-card animate delay-1">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+              <path d="M19.48 12.35C19.36 12.14 19.15 12 18.92 12H17.98L18.92 7.72C18.94 7.62 18.94 7.52 18.92 7.42C18.89 7.18 18.67 7 18.42 7H11.55C11.39 6.76 11.18 6.54 10.93 6.38C10.5 6.11 9.99 6 9.46 6C8.93 6 8.42 6.11 7.99 6.38C7.45 6.73 7.1 7.28 7.02 7.88C6.94 8.48 7.13 9.09 7.54 9.54C7.9 9.93 8.38 10.18 8.91 10.24C9.23 10.29 9.54 10.27 9.84 10.21C9.96 10.18 10.08 10.14 10.19 10.1C10.38 10.04 10.55 9.95 10.71 9.83C10.77 9.78 10.84 9.73 10.9 9.68L16.18 9.66L14.89 16H12.5C12.25 15.76 11.97 15.57 11.65 15.43C10.87 15.11 10.03 15.11 9.25 15.43C8.25 15.84 7.64 16.89 7.77 17.96C7.83 18.59 8.14 19.17 8.64 19.59C9.15 20 9.8 20.22 10.44 20.2C11.23 20.17 11.97 19.81 12.47 19.21C12.53 19.14 12.59 19.07 12.64 19H18.93C19.15 19 19.36 18.86 19.48 18.65C19.57 18.49 19.59 18.3 19.54 18.13L19.48 12.35ZM9.4 17.2C9.09 17.2 8.81 16.97 8.76 16.67C8.69 16.29 8.98 15.95 9.37 15.95H9.4C9.71 15.95 9.99 16.18 10.04 16.48C10.05 16.55 10.05 16.62 10.03 16.7C9.98 16.97 9.71 17.2 9.4 17.2Z" fill="#fff"/>
+              <path d="M13.34 4.58C13.49 4.41 13.49 4.16 13.33 4C13.17 3.84 12.91 3.84 12.75 4L8.97 7.77C8.82 7.93 8.82 8.19 8.98 8.35C9.06 8.43 9.16 8.47 9.27 8.47C9.37 8.47 9.48 8.43 9.56 8.35L13.34 4.58Z" fill="#fff"/>
+              <path d="M14.22 5.46C14.37 5.3 14.37 5.04 14.21 4.88C14.05 4.72 13.79 4.72 13.63 4.88L9.85 8.65C9.7 8.81 9.7 9.07 9.86 9.23C9.94 9.31 10.04 9.35 10.15 9.35C10.25 9.35 10.36 9.31 10.44 9.23L14.22 5.46Z" fill="#fff"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">가치 상승 메커니즘</h3>
+          <p class="feature-description">임대수익을 통한 토큰 소각으로 토큰 가치가 지속적으로 상승합니다.</p>
+        </div>
+        <div class="feature-card animate delay-2">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+              <path d="M1 21H13V23H1V21ZM5.24 8.07L8.07 5.24L22.21 19.38L19.38 22.21L5.24 8.07ZM12.32 1L17.07 5.75L15.17 7.66L10.42 2.91L12.32 1ZM3.83 9.48L8.58 14.23L6.67 16.14L1.92 11.39L3.83 9.48Z" fill="#fff"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">정부 경매 부동산</h3>
+          <p class="feature-description">각국 정부에서 운영하는 경매로만 부동산을 구매하여 투명성 및 10~30% 추가 수익을 확보합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- Business Model -->
+<section class="section business-model" id="model">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">비즈니스 모델</h2>
+      <p class="section-subtitle">
+        현실 부동산 자산과 디지털 경제의 브릿지를 구축하는 완전히 새로운 투자 패러다임
+      </p>
+    </div>
+
+    <!-- 2x3 그리드로 6개의 카드를 배치 -->
+    <div class="model-grid" style="
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+      gap: 30px;
+    ">
+      <!-- 1) 투자금 USDT 전환 -->
+      <div class="model-card" style="
+        background: #fff; 
+        border-radius: 15px; 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
+        padding: 30px; 
+        transition: 0.3s;
+      ">
+        <div class="icon" style="
+          width: 60px; 
+          height: 60px; 
+          background-color: var(--secondary); 
+          border-radius: 50%; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          margin-bottom: 15px;
+        ">
+          <i class="fas fa-wallet" style="color: #fff; font-size: 24px;"></i>
+        </div>
+        <h3 style="
+          font-size: 1.2rem; 
+          margin-bottom: 10px; 
+          color: var(--luxury-black);
+        ">
+          투자금 USDT 전환
+        </h3>
+        <p style="line-height: 1.6; color: var(--dark-text);">
+          투자자가 입금한 암호화폐는 100% USDT로 전환됩니다.
+        </p>
+      </div>
+
+      <!-- 2) 부동산 구매 -->
+      <div class="model-card" style="
+        background: #fff; 
+        border-radius: 15px; 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
+        padding: 30px; 
+        transition: 0.3s;
+      ">
+        <div class="icon" style="
+          width: 60px; 
+          height: 60px; 
+          background-color: var(--secondary); 
+          border-radius: 50%; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          margin-bottom: 15px;
+        ">
+          <i class="fas fa-building" style="color: #fff; font-size: 24px;"></i>
+        </div>
+        <h3 style="
+          font-size: 1.2rem; 
+          margin-bottom: 10px; 
+          color: var(--luxury-black);
+        ">
+          부동산 구매
+        </h3>
+        <p style="line-height: 1.6; color: var(--dark-text);">
+          전환된 USDT는 100% 정부 경매를 통한 부동산 구매에만 사용됩니다.
+        </p>
+      </div>
+
+      <!-- 3) 실물자산 구매 -->
+      <div class="model-card" style="
+        background: #fff; 
+        border-radius: 15px; 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
+        padding: 30px; 
+        transition: 0.3s;
+      ">
+        <div class="icon" style="
+          width: 60px; 
+          height: 60px; 
+          background-color: var(--secondary); 
+          border-radius: 50%; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          margin-bottom: 15px;
+        ">
+          <i class="fas fa-home" style="color: #fff; font-size: 24px;"></i>
+        </div>
+        <h3 style="
+          font-size: 1.2rem; 
+          margin-bottom: 10px; 
+          color: var(--luxury-black);
+        ">
+          실물자산 구매
+        </h3>
+        <p style="line-height: 1.6; color: var(--dark-text);">
+          전환된 USDT는 정부 경매를 통해 선정된 부동산을 구매하는 데 사용됩니다.
+        </p>
+      </div>
+
+      <!-- 4) 임대수익 창출 -->
+      <div class="model-card" style="
+        background: #fff; 
+        border-radius: 15px; 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
+        padding: 30px; 
+        transition: 0.3s;
+      ">
+        <div class="icon" style="
+          width: 60px; 
+          height: 60px; 
+          background-color: var(--secondary); 
+          border-radius: 50%; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          margin-bottom: 15px;
+        ">
+          <i class="fas fa-money-bill-wave" style="color: #fff; font-size: 24px;"></i>
+        </div>
+        <h3 style="
+          font-size: 1.2rem; 
+          margin-bottom: 10px; 
+          color: var(--luxury-black);
+        ">
+          임대수익 창출
+        </h3>
+        <p style="line-height: 1.6; color: var(--dark-text);">
+          구매한 부동산에서 안정적인 임대수익이 발생합니다.
+        </p>
+      </div>
+
+      <!-- 5) 토큰 소각 프로세스 -->
+      <div class="model-card" style="
+        background: #fff; 
+        border-radius: 15px; 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
+        padding: 30px; 
+        transition: 0.3s;
+      ">
+        <div class="icon" style="
+          width: 60px; 
+          height: 60px; 
+          background-color: var(--secondary); 
+          border-radius: 50%; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          margin-bottom: 15px;
+        ">
+          <i class="fas fa-fire" style="color: #fff; font-size: 24px;"></i>
+        </div>
+        <h3 style="
+          font-size: 1.2rem; 
+          margin-bottom: 10px; 
+          color: var(--luxury-black);
+        ">
+          토큰 소각 프로세스
+        </h3>
+        <p style="line-height: 1.6; color: var(--dark-text);">
+          임대수익의 70%를 활용해 RBT를 매입 후 소각, 토큰 가치 상승을 유도합니다.
+        </p>
+      </div>
+
+      <!-- 6) 자산 가치 상승 -->
+      <div class="model-card" style="
+        background: #fff; 
+        border-radius: 15px; 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
+        padding: 30px; 
+        transition: 0.3s;
+      ">
+        <div class="icon" style="
+          width: 60px; 
+          height: 60px; 
+          background-color: var(--secondary); 
+          border-radius: 50%; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          margin-bottom: 15px;
+        ">
+          <i class="fas fa-chart-line" style="color: #fff; font-size: 24px;"></i>
+        </div>
+        <h3 style="
+          font-size: 1.2rem; 
+          margin-bottom: 10px; 
+          color: var(--luxury-black);
+        ">
+          자산 가치 상승
+        </h3>
+        <p style="line-height: 1.6; color: var(--dark-text);">
+          부동산 가치 상승과 토큰 소각의 시너지로 투자자 수익을 극대화합니다.
+        </p>
+      </div>
+    </div><!-- .model-grid 끝 -->
+  </div><!-- .container 끝 -->
+</section><!-- .business-model 끝 -->
+
+
+
+  <!-- Safety Section -->
+  <section class="section safety" id="safety">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">원금 안전성 보장</h2>
+        <p class="section-subtitle">100% 실물자산 담보와 블록체인 기술로 완전한 투명성과 안전성을 확보합니다.</p>
+      </div>
+      <div class="safety-container">
+        <div class="safety-content animate">
+          <div class="safety-point">
+            <div class="safety-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="safety-text">
+              <h3>100% 실물자산 담보</h3>
+              <p>모든 투자금은 실제 부동산 구매에만 사용되며, 모든 자산은 블록체인에 기록됩니다.</p>
+            </div>
+          </div>
+          <div class="safety-point">
+            <div class="safety-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="safety-text">
+              <h3>정부 경매 시스템</h3>
+              <p>각국 정부의 공식 경매 시스템을 통해 부동산을 취득, 법적 안전성을 보장합니다.</p>
+            </div>
+          </div>
+          <div class="safety-point">
+            <div class="safety-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="safety-text">
+              <h3>블록체인 기반 투명성</h3>
+              <p>모든 거래와 자산 운용 내역이 블록체인에 기록되어 누구나 확인할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="safety-point">
+            <div class="safety-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="safety-text">
+              <h3>맞춤형 AI 관리 시스템</h3>
+              <p>투자자별 AI 에이전트가 24/7 자산 상태와 수익률을 모니터링합니다.</p>
+            </div>
+          </div>
+        </div>
+        <div class="safety-image animate delay-1">
+          <div style="background-color: #f9f9f9; border-radius: 15px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); padding: 40px; text-align: center;">
+            <div style="width: 200px; height: 200px; margin: 0 auto 30px; position: relative;">
+              <div style="position: absolute; width: 180px; height: 180px; border: 15px solid #ffb74d; border-radius: 50%; top: 10px; left: 10px; z-index: 1;"></div>
+              <div style="position: absolute; width: 150px; height: 150px; background-color: var(--luxury-black); border-radius: 50%; top: 25px; left: 25px; z-index: 2; display: flex; align-items: center; justify-content: center;">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3L6 7.58V12.82C6 16.67 8.56 20.16 12 21C15.44 20.16 18 16.67 18 12.82V7.58L12 3ZM16 12.82C16 15.7 14.36 18.27 12 19.35C9.64 18.27 8 15.7 8 12.82V8.75L12 5.68L16 8.75V12.82Z" fill="#fff"/>
+                  <path d="M9.5 12.75H14.5V14.75H9.5V12.75ZM12.5 9.75H9.5V11.75H12.5V9.75Z" fill="#fff"/>
+                </svg>
+              </div>
+            </div>
+            <h3 style="color: var(--luxury-black); font-size: 24px; margin-bottom: 15px;">100% 실물자산 담보</h3>
+            <p style="color: var(--dark-text); line-height: 1.6;">모든 투자금은 실제 부동산 구매에만 사용되어<br>투자 원금의 안전성을 보장합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section faq" id="faq">
+    <div class="container faq-container">
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>Real Bridge Token은 어떻게 작동하나요?</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>RBT는 암호화폐를 USDT로 전환한 후, 정부 경매를 통해 부동산을 구매하고, 임대수익을 통해 토큰 소각을 진행합니다.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>투자금은 어떻게 보관되나요?</h3>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>투자금은 안전한 USDT로 전환되어, 전액 부동산 구매에 사용됩니다. 모든 거래는 블록체인에 기록됩니다.</p>
+        </div>
+      </div>
+      <!-- 추가 FAQ 항목들 -->
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="cta">
+    <div class="container cta-content">
+      <h2 class="animate">지금 바로 투자하고 미래를 열어보세요</h2>
+      <p class="animate delay-1">RBT를 통해 안정적인 실물자산 투자와 혁신적인 디지털 경제를 경험해 보십시오.</p>
+      <a href="#" class="btn btn-primary btn-large animate delay-2">Pre-Sale 참여하기</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-column">
+        <h3 class="footer-title">회사 정보</h3>
+        <ul class="footer-links">
+          <li><a href="#">회사 소개</a></li>
+          <li><a href="#">채용 정보</a></li>
+          <li><a href="#">투자자 정보</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3 class="footer-title">서비스</h3>
+        <ul class="footer-links">
+          <li><a href="#">RBT 서비스</a></li>
+          <li><a href="#">토큰 판매</a></li>
+          <li><a href="#">파트너십</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3 class="footer-title">문의</h3>
+        <ul class="footer-links">
+          <li><a href="#">고객 지원</a></li>
+          <li><a href="#">문의하기</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="social-links container">
+      <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+    </div>
+    <div class="copyright">
+      &copy; 2025 Real Bridge Token. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // 간단한 FAQ 아코디언 스크립트
+    document.querySelectorAll('.faq-question').forEach(item => {
+      item.addEventListener('click', () => {
+        const parent = item.parentElement;
+        parent.classList.toggle('active');
+      });
+    });
+    // Navbar 스크롤 시 효과
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>
